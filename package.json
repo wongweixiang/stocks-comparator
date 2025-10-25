@@ -1,10 +1,10 @@
 {
-  "name": "my-project",
+  "name": "stocks-comparator",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm:dev:frontend\" \"npm:dev:backend\"",
     "dev:frontend": "npm --prefix frontend run dev",
-    "dev:backend": "ts-node backend/index.ts"
+    "dev:backend": "tsx backend/index.ts"
   },
   "devDependencies": {
     "concurrently": "^8.2.0",

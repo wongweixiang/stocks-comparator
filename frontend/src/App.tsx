@@ -1,22 +1,11 @@
-import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchStockData } from './api/yahooFinance';
+import { useFetchStockData } from './hooks/useFetchStockData';
 
 function App() {
-  const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ['stock', 'MSFT', '1y'],
-    queryFn: () => fetchStockData('MSFT', '1y', '1d'),
-    enabled: false, // disable automatic fetch
-    staleTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchInterval: false,
-  });
+  const ticker = 'MSFT';
+  const range = '1y';
+  const interval = '1d';
 
-  // Fire exactly once on mount
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  const { data, error, isLoading } = useFetchStockData({ symbol: ticker, range, interval });
 
   if (isLoading) return <p>Loading...</p>;
   if (error instanceof Error) return <p>Error: {error.message}</p>;
