@@ -10,10 +10,11 @@ export const useFetchStockData = ({
   range: string;
   interval: string;
 }) => {
-  const { data, error, isLoading, refetch, ...otherProps } = useQuery({
+  const { data, isLoading, error, ...otherProps } = useQuery({
     queryKey: ['stock', symbol, range, interval],
     queryFn: () => fetchStockData(symbol, range, interval),
+    enabled: !!symbol,
   });
 
-  return { data, error, isLoading, refetch, ...otherProps };
+  return { data, isLoading, error, ...otherProps };
 };
