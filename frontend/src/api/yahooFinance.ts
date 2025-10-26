@@ -5,6 +5,11 @@ export async function fetchStockData(symbol: string, range = '1y', interval = '1
   if (!res.ok) throw new Error(`Failed to fetch stock data`);
 
   const json = await res.json();
+
+  if (!!json.chart?.error) {
+    return { symbol, error: json.chart.error };
+  }
+
   const result = json.chart.result?.[0];
 
   const timestamps = result.timestamp;
