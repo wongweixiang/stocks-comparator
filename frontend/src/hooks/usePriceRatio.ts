@@ -4,9 +4,6 @@ export const usePriceRatio = () => {
   const { data: stock1 } = useQuery({ queryKey: [`stock-1`, 'latest'] });
   const { data: stock2 } = useQuery({ queryKey: [`stock-2`, 'latest'] });
 
-  console.log('Stock 1 Data:', stock1);
-  console.log('Stock 2 Data:', stock2);
-
   let ratios;
 
   if (!!stock1?.data && !!stock2?.data) ratios = calculatePriceRatios(stock1?.data, stock2?.data);

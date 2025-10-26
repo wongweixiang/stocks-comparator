@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { useFetchStockData } from './hooks/useFetchStockData';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const StockSection = ({ stockNo }: { stockNo: string }) => {
   const range = '1y';
@@ -15,10 +16,14 @@ const StockSection = ({ stockNo }: { stockNo: string }) => {
   });
 
   return (
-    <div>
-      <div>
-        <input placeholder="Enter a stock ticker" ref={ref} />
-        <button onClick={() => setSymbol(ref?.current?.value)}>Fetch Data</button>
+    <div className="border rounded-xl p-4">
+      <div className="m-4 flex gap-2">
+        <input
+          className="box-border p-2 border rounded"
+          placeholder="Enter a stock ticker"
+          ref={ref}
+        />
+        <button onClick={() => setSymbol(ref?.current?.value)}>Get Price Data</button>
       </div>
       {isLoading && <p>Loading...</p>}
       {error instanceof Error && <p>Error: {error.message}</p>}
@@ -30,13 +35,20 @@ const StockSection = ({ stockNo }: { stockNo: string }) => {
       {!!data?.data && (
         <>
           <h1>{data.symbol} – 1Y Performance</h1>
-          <ul>
-            {data.data.slice(-10).map((point) => (
-              <li key={point.timestamp}>
-                {new Date(point.timestamp).toLocaleDateString()}: ${point.close.toFixed(2)}
-              </li>
-            ))}
-          </ul>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={data.data}>
+              <XAxis
+                dataKey="timestamp"
+                tickFormatter={(ts) => new Date(ts).toLocaleDateString('en-US', { month: 'short' })}
+              />
+              <YAxis domain={['auto', 'auto']} />
+              <Tooltip
+                labelFormatter={(ts) => new Date(ts).toLocaleDateString()}
+                formatter={(value) => [`$${(value as number).toFixed(2)}`, 'Close']}
+              />
+              <Line type="monotone" dataKey="close" stroke="#2563eb" strokeWidth={2} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
         </>
       )}
     </div>
