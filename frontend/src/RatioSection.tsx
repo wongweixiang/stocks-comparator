@@ -1,16 +1,21 @@
 import { usePriceRatio } from './hooks/usePriceRatio';
 
 const RatioSection = () => {
-  const priceRatio = usePriceRatio();
+  const { stock1, stock2, ratios } = usePriceRatio();
 
-  console.log('Price Ratio Data:', priceRatio);
+  console.log('Price Ratio Data:', ratios);
 
   return (
     <div>
       Ratio Section
-      {!!priceRatio && (
+      {stock1 && stock2 && (
+        <h2>
+          Price Ratio: {stock1} / {stock2}
+        </h2>
+      )}
+      {!!ratios && (
         <ul>
-          {priceRatio.slice(-20).map((point) => (
+          {ratios.slice(-20).map((point) => (
             <li key={point.timestamp}>
               {new Date(point.timestamp).toLocaleDateString()}: {point.ratio.toFixed(2)}
             </li>

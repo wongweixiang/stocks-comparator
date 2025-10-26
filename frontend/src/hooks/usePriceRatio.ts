@@ -7,10 +7,11 @@ export const usePriceRatio = () => {
   console.log('Stock 1 Data:', stock1);
   console.log('Stock 2 Data:', stock2);
 
-  if (!!stock1?.data && !!stock2?.data) {
-    const ratios = calculatePriceRatios(stock1?.data, stock2?.data);
-    return ratios;
-  }
+  let ratios;
+
+  if (!!stock1?.data && !!stock2?.data) ratios = calculatePriceRatios(stock1?.data, stock2?.data);
+
+  return { stock1: stock1?.symbol, stock2: stock2?.symbol, ratios };
 };
 
 interface PricePoint {
