@@ -17,7 +17,7 @@ const StockSection = ({ stockNo }: { stockNo: string }) => {
 
   return (
     <div className="border rounded-xl p-4">
-      <div className="m-4 flex gap-2">
+      <div className="my-4 flex gap-2">
         <input
           className="box-border p-2 border rounded"
           placeholder="Enter a stock ticker"
@@ -32,7 +32,7 @@ const StockSection = ({ stockNo }: { stockNo: string }) => {
           {data.error.code} - {data.error.description}
         </p>
       )}
-      {!!data?.data && (
+      {!!data?.data ? (
         <>
           <h1>{data.symbol} – 1Y Performance</h1>
           <ResponsiveContainer width="100%" height={300}>
@@ -50,6 +50,10 @@ const StockSection = ({ stockNo }: { stockNo: string }) => {
             </LineChart>
           </ResponsiveContainer>
         </>
+      ) : (
+        <div className="bg-blue-950 rounded-2xl w-[520px] h-[300px] flex items-center justify-center text-white">
+          Search for a stock!
+        </div>
       )}
     </div>
   );

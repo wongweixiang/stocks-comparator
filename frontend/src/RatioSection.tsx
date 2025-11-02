@@ -4,8 +4,6 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'rec
 const RatioSection = () => {
   const { stock1, stock2, ratios } = usePriceRatio();
 
-  console.log({ ratios });
-
   return (
     <div className="border rounded-xl p-4 m-4">
       {stock1 && stock2 && (
@@ -13,7 +11,7 @@ const RatioSection = () => {
           Price Ratio: {stock1} / {stock2}
         </h1>
       )}
-      {!!ratios && (
+      {!!ratios ? (
         <>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={ratios}>
@@ -30,6 +28,10 @@ const RatioSection = () => {
             </LineChart>
           </ResponsiveContainer>
         </>
+      ) : (
+        <div className="bg-blue-950 rounded-2xl w-[520px] md:w-[1090px] h-[360px] flex items-center justify-center text-white">
+          Search for two stocks to compare!
+        </div>
       )}
     </div>
   );
