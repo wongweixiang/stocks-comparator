@@ -23,7 +23,14 @@ const StockSection = ({ stockNo }: { stockNo: string }) => {
           placeholder="Enter a stock ticker"
           ref={ref}
         />
-        <button onClick={() => setSymbol(ref?.current?.value)}>Get Price Data</button>
+        <button
+          onClick={() => {
+            if (!ref?.current?.value) return;
+            setSymbol(ref?.current?.value);
+          }}
+        >
+          Get Price Data
+        </button>
       </div>
       {isLoading && <p>Loading...</p>}
       {error instanceof Error && <p>Error: {error.message}</p>}

@@ -1,16 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 
-export const usePriceRatio = () => {
-  const { data: stock1 } = useQuery({ queryKey: [`stock-1`, 'latest'] });
-  const { data: stock2 } = useQuery({ queryKey: [`stock-2`, 'latest'] });
-
-  let ratios;
-
-  if (!!stock1?.data && !!stock2?.data) ratios = calculatePriceRatios(stock1?.data, stock2?.data);
-
-  return { stock1: stock1?.symbol, stock2: stock2?.symbol, ratios };
-};
-
 interface PricePoint {
   timestamp: number;
   close: number;
@@ -20,6 +9,22 @@ interface RatioPoint {
   timestamp: number;
   ratio: number;
 }
+
+type StockData = {
+  data: PricePoint[];
+  symbol: string;
+};
+
+export const usePriceRatio = () => {
+  const { data: stock1 } = useQuery<StockData>({ queryKey: [`stock-1`, 'latest'] });
+  const { data: stock2 } = useQuery<StockData>({ queryKey: [`stock-2`, 'latest'] });
+
+  let ratios;
+
+  if (!!stock1?.data && !!stock2?.data) ratios = calculatePriceRatios(stock1?.data, stock2?.data);
+
+  return { stock1: stock1?.symbol, stock2: stock2?.symbol, ratios };
+};
 
 const calculatePriceRatios = (stock1: PricePoint[], stock2: PricePoint[]): RatioPoint[] => {
   const stock2Map = new Map(stock2.map((p) => [p.timestamp, p.close]));
